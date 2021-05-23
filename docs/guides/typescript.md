@@ -188,8 +188,6 @@ type State =
 /* ... */
 ```
 
-:::
-
 ## Config Objects
 
 Machine config objects can be typed. This is useful when defining a machine config object _outside_ of the `createMachine(...)` function, and helps prevent [inference errors](https://github.com/davidkpiano/xstate/issues/310). The first and third generic parameters for `MachineConfig<TContext, TSchema, TEvent>` are the same as the first and second parameters for `createMachine<TContext, TEvent, TTypeState>` respectively. The second generic parameter 'TSchema' accepts an object type with a single key 'states' which lists the possible states of machines accepting the configuration:
