@@ -77,56 +77,7 @@ Type error: Type 'string | number' does not satisfy the constraint 'string'.
   Type 'number' is not assignable to type 'string'.  TS2344
 ```
 
-Ensure that your tsconfig file does not include `"keyofStringsOnly": true,`.
-
-## Config Objects
-
-The generic types for `MachineConfig<TContext, TSchema, TEvent>` are the same as those for `createMachine<TContext, TSchema, TEvent>`. This is useful when you are defining a machine config object _outside_ of the `createMachine(...)` function, and helps prevent [inference errors](https://github.com/davidkpiano/xstate/issues/310):
-
-```ts
-import { MachineConfig } from 'xstate';
-
-const myMachineConfig: MachineConfig<TContext, TSchema, TEvent> = {
-  id: 'controller',
-  initial: 'stopped',
-  states: {
-    stopped: {
-      /* ... */
-    },
-    started: {
-      /* ... */
-    }
-  }
-  // ...
-};
-```
-
-## Actions
-
-The `send` action on the interpreted machine `interpret(stateMachine)` isn't always type safe. To get typechecking for this function signature, use the following pattern:
-
-```ts
-type UserEvents = {
-  type: 'TEST';
-  value: string;
-};
-
-const service = interpret(stateMachine);
-
-// This will compile
-service.send({ type: 'TEST', value: 'testvalue' });
-
-// This will have a compile error on the `value` type
-service.send({ type: 'TEST', value: 1 });
-```
-
-If you use the following pattern, you'll lose type safety, so both of these will compile:
-
-```ts
-service.send('TEST', { value: 'testvalue' });
-
-service.send('TEST', { value: 1 });
-```
+Ensure that your tsconfig file does not include `"keyofStringsOnly": true`.
 
 ## Typestates <Badge text="4.7+" />
 
